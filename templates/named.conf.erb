@@ -99,31 +99,19 @@ options {
 };
 
 <% if !@logging.empty? -%>
-//This page has more info on BIND logging options: http://www.zytrax.com/books/dns/ch7/logging.html
 logging {
 <%- if @logging['categories'] and !@logging['categories'].empty? and @logging['categories'].is_a?(Hash)  -%>
-//These categories refer to built-in categories of log messages that BIND generates (what's
-//next to 'category') and the user-defined channels they get sent to, which is inside of the {};
 <% @logging['categories'].each do |builtin_bind_category, channel_name|-%>
   category <%=builtin_bind_category%> {
     <%=channel_name%>;
   };
 <% end -%>
 <% end -%>
-//Channels are user-defined log outputs (file or syslog) that receive log events from any
-//categories specified above that reference the channel.
 <%- if @logging.has_key?('channels') and !@logging['channels'].empty? and @logging['channels'].is_a?(Hash) -%>
 <%- @logging['channels'].each do |channel_name, channel_parameters|-%>
   channel <%=channel_name-%> {
     <%- if channel_parameters.has_key?('channel_type') and !channel_parameters['channel_type'].empty? -%>
     <%- if channel_parameters['channel_type'] == 'file'-%>
-    //'versions' is the number of older logs we'll keep; size is how large the current log
-    //file will be allowed to grow before it gets rotated. File size units are defined as follows:
-    // k or K - Kilobytes
-    // m or M - Megabytes
-    // g or G - Gigabytes
-    //If the size is given as just a number, BIND will assume it specifies bytes.
-    //For example, 25000000 = 25m
     <%=channel_parameters['channel_type']-%> "<%=channel_parameters['file_location']-%>" versions <%=channel_parameters['versions']-%> size <%=channel_parameters['size']-%>;
     <%- elsif channel_parameters['channel_type'] == 'syslog'-%>
     <%=channel_parameters['channel_type']-%> <%=channel_parameters['facility']-%>;
