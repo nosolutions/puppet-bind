@@ -112,10 +112,10 @@ logging {
 <% end -%>
 //Channels are user-defined log outputs (file or syslog) that receive log events from any
 //categories specified above that reference the channel.
-<%- if @logging['channels'] and !logging['channels'].empty? and @logging['channels'].is_a?(Hash) -%>
+<%- if @logging.has_key?('channels') and !@logging['channels'].empty? and @logging['channels'].is_a?(Hash) -%>
 <%- @logging['channels'].each do |channel_name, channel_parameters|-%>
   channel <%=channel_name-%> {
-    <%- if !channel_parameters['channel_type'].empty? -%>
+    <%- if channel_parameters.has_key?('channel_type') and !channel_parameters['channel_type'].empty? -%>
     <%- if channel_parameters['channel_type'] == 'file'-%>
     //'versions' is the number of older logs we'll keep; size is how large the current log
     //file will be allowed to grow before it gets rotated. File size units are defined as follows:
@@ -128,16 +128,16 @@ logging {
     <%- elsif channel_parameters['channel_type'] == 'syslog'-%>
     <%=channel_parameters['channel_type']-%> <%=channel_parameters['facility']-%>;
     <%- end -%>
-    <%- if !channel_parameters['severity'].empty? -%>
+    <%- if channel_parameters.has_key?('severity') and !channel_parameters['severity'].empty? -%>
     severity <%=channel_parameters['severity']-%>;
     <%- end -%>
-    <%- if !channel_parameters['print-time'].empty? -%>
+    <%- if channel_parameters.has_key?('print-time') and !channel_parameters['print-time'].empty? -%>
     print-time <%=channel_parameters['print-time']-%>;
     <%- end -%>
-    <%- if !channel_parameters['print-severity'].empty? -%>
+    <%- if channel_parameters.has_key?('print-severity') and !channel_parameters['print-severity'].empty? -%>
     print-severity <%=channel_parameters['print-severity']-%>;
     <%- end -%>
-    <%- if !channel_parameters['print-category'].empty? -%>
+    <%- if channel_parameters.has_key?('print-category') and !channel_parameters['print-category'].empty? -%>
     print-category <%=channel_parameters['print-category']-%>;
     <%- end -%>
     <%- end -%>
