@@ -109,7 +109,10 @@ define bind::server::conf (
   $statistics_file        = '/var/named/data/named_stats.txt',
   $memstatistics_file     = '/var/named/data/named_mem_stats.txt',
   $logging                = {
-  'categories' => { 'default' => 'main_log', 'lame-servers' => 'null' },
+    'categories' => { 
+      'default' => 'main_log',
+      'lame-servers' => 'null'
+    },
     'channels' => { 
       'main_log' => {
         channel_type   => 'file',
@@ -140,6 +143,8 @@ define bind::server::conf (
   $keys                   = {},
   $includes               = [],
   $views                  = {},
+  $roothint_file          = 'named.ca',
+  $rfc1912_configfile     = '/etc/named.rfc1912.zone',
 ) {
 
   # Everything is inside a single template
