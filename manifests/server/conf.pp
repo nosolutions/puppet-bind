@@ -144,7 +144,7 @@ define bind::server::conf (
   $includes               = [],
   $views                  = {},
   $roothint_file          = 'named.ca',
-  $rfc1912_configfile     = '/etc/named.rfc1912.zone',
+  $rfc1912_configfile     = '/etc/named.rfc1912.zones',
 ) {
 
   # Everything is inside a single template
